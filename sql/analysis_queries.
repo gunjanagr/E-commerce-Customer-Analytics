@@ -1,0 +1,36 @@
+-- 1. Top 10 customers by total revenue
+SELECT customer_id, SUM(total_value) AS revenue
+FROM transactions
+GROUP BY customer_id
+ORDER BY revenue DESC
+LIMIT 10;
+
+-- 2. Revenue share by cluster
+SELECT cluster, COUNT(*) AS customers,
+       ROUND(SUM(total_value),2) AS total_revenue,
+       ROUND(SUM(total_value)*100.0 / SUM(SUM(total_value)) OVER(),2) AS revenue_pct
+FROM transactions t JOIN customer_clusters c USING(customer_id)
+GROUP BY cluster;
+
+-- 3. Q4 vs other quarters transaction volume
+SELECT CASE WHEN EXTRACT(MONTH FROM transaction_date) IN (10,11,12) THEN 'Q4' ELSE 'Q1-Q3' END AS period,
+       COUNT(*) AS transactions, ROUND(SUM(total_value),2) AS revenue
+FROM transactions
+GROUP BY period;
+
+-- 4. Top product categories by cluster
+SELECT cluster, category, COUNT(*) AS purchases
+FROM transactions t
+JOIN products p USING(product_id)
+JOIN customer_clusters c USING(customer_id)
+GROUP BY cluster, category
+ORDER BY cluster, purchases DESC;
+
+-- 5. At-risk customers (Cluster 5) - last purchase > 60 days ago
+SELECT customer_id, MAX(transaction_date) AS last_purchase,
+       CURRENT_DATE - MAX(transaction_date) AS days_since_purchase
+FROM transactions t
+JOIN customer_clusters c USING(customer_id)
+WHERE cluster = 5
+GROUP BY customer_id
+HAVING days_since_purchase > 60;
