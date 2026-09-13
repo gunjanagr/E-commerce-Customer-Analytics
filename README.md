@@ -36,9 +36,6 @@ Cluster 3 represents 15% of customers but drives 40% of revenue. This analysis i
 
 Python · Pandas · Scikit-learn · K-Means · Cosine Similarity · Matplotlib · Seaborn · SQL
 
-## Dashboard
-
-[View on Tableau Public]
 
 ## Contact
 
