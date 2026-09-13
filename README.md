@@ -38,7 +38,7 @@ Python · Pandas · Scikit-learn · K-Means · Cosine Similarity · Matplotlib �
 
 ## Dashboard
 
-[View on Tableau Public](#) ← replace with your link after uploading
+[View on Tableau Public]
 
 ## Contact
 
